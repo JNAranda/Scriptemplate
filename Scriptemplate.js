@@ -153,7 +153,6 @@ var ScriptemplateEngine = function(){
 			var repeaterContext = getContext(currentContext, repeaterDataPath);
 			if(typeof repeaterContext.data == "object"){
 				for(var accessor in repeaterContext.data){
-					console.log(repeaterContext.data[accessor])
 					var indexContext = {
 						parent: currentContext,
 						data: repeaterContext.data[accessor],
@@ -163,7 +162,6 @@ var ScriptemplateEngine = function(){
 				}
 			}else{
 				for(var accessor=0; accessor<repeaterContext.data.length; accessor++){
-					console.log(repeaterContext.data[accessor])
 					var indexContext = {
 						parent: currentContext,
 						data: repeaterContext.data[accessor],
