@@ -34,14 +34,15 @@ are clear:
 		}
 	]
 	
-Scriptlets are dead, and we need to move on.
+> Scriptlets are dead, and we need to move on.
 	
 > One can send a Scriptemplate alongside data too (as a Scriptemplate should be valid JSON).
+
 
 > Many template parsers rely on / are plugins to another library. Scriptemplate does not 
 require any library.
 
-Basically, with a Scriptemplate, you configure your nodes. If you want to write your template
+Basically, with a Scriptemplate, you configure your nodes. If you want to write your templates
 in HTML, Scriptemplate is not for you: though there may be an html preprocessor in the works 
 to help initially flesh out a Scriptemplate by way of reverse engineering.
 
