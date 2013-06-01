@@ -99,7 +99,7 @@ var fruitListTemplate = {
 	]
 }
 </code></pre>
-The "{" and "}" brackets are a data expression that tells the scriptemplate parser to insert the data found in the current scope
+The "{" and "}" brackets are a data expression that tells the scriptemplate parser to insert the data found in the named property at the current scope
 (in this case, the scope is fruit[n]) at the place of the brackets.
 
 If the data expression ends in a dot (".") the parser will use the current key for the object it is scoped to, which in our case 
