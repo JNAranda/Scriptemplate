@@ -78,13 +78,11 @@ var fruitListTemplate = {
 </code></pre>
  
 If we run bind() again, we'd get a node structure like this:
-<pre><code>
 <ul>
 	<li>A Fruit!</li>
 	<li>A Fruit!</li>
 	<li>A Fruit!</li>
 </ul>
-</code></pre>
 because we instructed the template parser to repeat the list item directive 
 (the object with tag: 'li') for each item in the "fruit" property on the root of the data source.
 
@@ -106,11 +104,9 @@ The "{" and "}" brackets are a data expression that tells the scriptemplate pars
 
 If the data expression ends in a dot (".") the parser will use the current key for the object it is scoped to, which in our case 
 will be each of the object keys within the "fruit" object. Thus the result of bind(fruitListTemplate, fruitData); should be:
-<pre><code>
 <ul>
 	<li>Apple</li>
 	<li>Orange</li>
 	<li>Pear</li>
 </ul>
-</code></pre>
 
