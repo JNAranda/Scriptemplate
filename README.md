@@ -34,7 +34,7 @@ are clear:
 		}
 	]
 	
-Scriptlets are dead, and we need to move on.
+ Scriptlets are dead, and we need to move on.
 	
 > One can send a Scriptemplate alongside data too (as a Scriptemplate should be valid JSON).
 
