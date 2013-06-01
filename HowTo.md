@@ -57,12 +57,10 @@ var fruitListTemplate = {
 	]
 }
 </code></pre>
-At this point, if we fed this scriptemplate into bind(), we'd get a node structure like this:
-<pre><code>
+At this point, if we fed this scriptemplate into bind(), we'd get this:
 <ul>
 	<li>A Fruit!</li>
 </ul>
-</code></pre>
 This is fine, but we can define DOM nodes statically in html more easily - the 
 point is to work with the data.
 So add the property "repeatFor: 'fruit'" to the list item we just defined.
