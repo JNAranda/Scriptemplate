@@ -1,3 +1,6 @@
+Scriptemplate
+=============
+
 It's a script! It's a template!
 It's Scriptemplate (say it like contemplate).
 
