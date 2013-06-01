@@ -23,6 +23,8 @@
  */
 
 var ScriptemplateEngine = function(){
+	var me = this;
+	
 	function appendClass(cls, node){
 		if(node){
 			if(node.className.length > 0){
@@ -34,8 +36,8 @@ var ScriptemplateEngine = function(){
 	}
 	
 	function getData(dataPathArray){
-		var data = dataSource;
-		for(var accessor=0; accessor < dataPathArray.length; accessor++){
+		var data = me.dataSource;
+		for(var accessor=0; data != null && data != undefined && accessor < dataPathArray.length; accessor++){
 			data = data[dataPathArray[accessor]];
 		}
 		return data;
@@ -44,11 +46,12 @@ var ScriptemplateEngine = function(){
 	function getContext(startingContext, dataPathArray){
 		var modifiedContextObj = startingContext;
 		for(var i=0; i < dataPathArray.length; i++){
+			var contextData = modifiedContextObj.data[dataPathArray[i]];
 			if(dataPathArray[i] === "^"){
 				modifiedContextObj = modifiedContextObj.parent;
-			}else if(modifiedContextObj.data[dataPathArray[i]]){
+			}else if(contextData != null && contextData != undefined){
 				var newModifiedContextObj = {
-					data: modifiedContextObj.data[dataPathArray[i]],
+					data: contextData,
 					key: dataPathArray[i],
 					parent: modifiedContextObj
 				};
@@ -70,15 +73,18 @@ var ScriptemplateEngine = function(){
 		var transformedText = str;
 		if(dataTags){
 			var replacements = {};
-			for(var i=0; i < dataTags.length; i++){ // for each data path
+			for(var i=0; i < dataTags.length; i++){ // dataTags[i] is also a potential dataPath
 				replacements[dataTags[i]] = "";
-				var dataPath = dataTags[i].replace(/[{}]/g, ''); //is a '.' delimited string describing the path of a data element we want to apply to the tag.
-				dataAccessor = dataPath.split('.');
+				var dataPath = dataTags[i].replace(/[{}]/g, ''); //dataPath is a '.' delimited string describing the path of a data element we want to apply to the tag.
+				dataAccessor = dataPath.split('.'); // dataAccessor is an array result of the dataPath
 				if(dataAccessor.length > 0){
 					if(dataAccessor[0] === "" || dataAccessor[0] === "^"){
 						replacements[dataTags[i]] = getContext(currentContext, dataAccessor).data;
 					}else{
 						replacements[dataTags[i]] = getData(dataAccessor);
+					}
+					if(replacements[dataTags[i]] === null || replacements[dataTags[i]] === undefined){ // displaying null or undefined is kind of ugly, but maybe there should be a flag that can be set to enable the display?  
+						replacements[dataTags[i]] = "";
 					}
 				}
 			}
@@ -93,7 +99,7 @@ var ScriptemplateEngine = function(){
 	function buildTextNode(text, currentContext){
 		var transformedText = "";
 		if(typeof text == "function"){
-			transformedText = text(currentContext, dataSource);
+			transformedText = text(currentContext, me.dataSource);
 		}else if(typeof text == "string"){
 			transformedText = parseTextString(text, currentContext);
 		}
@@ -116,7 +122,10 @@ var ScriptemplateEngine = function(){
 				node.id = templateNode.id;
 			}
 			if(templateNode.text){
-				node.appendChild(buildTextNode(templateNode.text, currentContext));
+				var textNode = buildTextNode(templateNode.text, currentContext);
+				if(textNode){
+					node.appendChild(textNode);
+				}
 			}
 		}else if(templateNode.text){
 			node = buildTextNode(templateNode.text, currentContext);
@@ -127,7 +136,7 @@ var ScriptemplateEngine = function(){
 			if(typeof cls == "string"){
 				appendClass(cls, node);
 			}else if(typeof cls == "function"){
-				appendClass(cls(currentContext, DataSource));
+				appendClass(cls(currentContext, me.dataSource));
 			}
 		}
 		
@@ -140,7 +149,9 @@ var ScriptemplateEngine = function(){
 			}
 		}
 		for(var i=0; i<childNodes.length; i++){
-			node.appendChild(childNodes[i]);
+			if(childNodes[i]){
+				node.appendChild(childNodes[i]);
+			}
 		}
 		return node;
 	}
@@ -178,12 +189,12 @@ var ScriptemplateEngine = function(){
 	}
 
 	this.bind = function(template, dataSource){
-		this.dataSource = dataSource;
+		me.dataSource = dataSource;
 		var nodes = [];
 		var rootContext = {
 			data: dataSource
 		};
-		if(typeof template == "array"){
+		if(typeof template.length != undefined){
 			for(var i=0; i<template.length; i++){
 				var builtNodes = prebuildNodes(template[i], rootContext);
 				for(var n=0; n<builtNodes.length; n++){
