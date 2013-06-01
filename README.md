@@ -43,6 +43,3 @@ Basically, with a Scriptemplate, you configure your nodes. If you want to write 
 in HTML, Scriptemplate is not for you: though there may be an html preprocessor in the works 
 to help initially flesh out a Scriptemplate by way of reverse engineering.
 
-If you still really want to use Hyper-Texty mark up, check out http://goessner.net/articles/jsont/
-or a burgeoning little library at https://github.com/jquery/jquery or any of the stuff in this list:
-http://www.jquery4u.com/javascript/10-javascript-jquery-templates-engines/
